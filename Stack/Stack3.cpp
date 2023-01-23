@@ -1,0 +1,181 @@
+/*
+Stack Programs in C++
+Stack3.cpp
+
+*/
+
+#include<iostream>
+using namespace std;
+
+typedef struct Node
+{
+int data;
+struct Node* Next;
+}NODE,* PNODE;
+
+/*typedef struct Stack NODE;
+typedef struct Stack* PNODE;
+typedef struct Stack** PPNODE;*/
+class Stack
+{
+private:
+	PNODE Head;
+	int iSize;
+public:
+	Stack();
+	~Stack();
+	void Push(int);//InsertFirst(...,int)
+	int Pop();//DeleteFirst(..)
+	int Count();
+	void Display();
+	void SaveDisplay();
+	int Peek();
+};
+Stack::Stack()
+{
+cout<<"\nInside Constructor";
+	this->iSize=0;
+	this->Head=NULL;
+}
+Stack::~Stack()
+{
+cout<<"\nInside Destructor";	
+PNODE Temp=NULL;
+while(Head!=NULL)
+{
+	Temp=Head;
+Head=Head->Next;
+	delete Temp;
+}
+iSize=0;
+}
+void Stack::Push(int no)
+{
+PNODE newn=new NODE;
+newn->data=no;
+newn->Next=NULL;
+	
+	newn->Next=Head;
+	Head=newn;
+iSize++;
+}
+int Stack::Pop()
+{
+int r=-1;
+if(iSize==0)//Stack empty
+{ return r; }
+else{
+	PNODE Temp=Head;
+	Head=Head->Next;
+r=Temp->data;
+	delete Temp;
+iSize--;
+return r;
+}
+}
+void Stack::Display()
+{
+if(iSize==0)
+{ cout<<"\nStack is Empty."; return; }
+cout<<"\nDisplaying all elements in Stack below :\n";
+PNODE Temp=Head;
+while(Temp!=NULL)
+{
+	cout<<Temp->data<<"\n";
+	Temp=Temp->Next;
+}cout<<"__end of stack";
+}
+int Stack::Count()
+{
+return this->iSize;
+}
+int Stack::Peek()
+{
+int h=0;
+if(iSize==0)
+{
+	return -1;
+}else{
+h=(Head->data);
+return h;	
+}
+}
+void Stack::SaveDisplay()
+{
+	
+}
+
+int main()
+{
+Stack* s=new Stack;//Stack s;
+//automatic call to Stack()
+//i.e Constructor
+
+int iOpt=1,ino=0,ians=0;
+
+while(iOpt!=0)
+{
+cout<<"\n______Stack Application_______";
+cout<<"\nSelect one of the option :";
+cout<<"\n1. Push the element .";	
+cout<<"\n2. Pop the element .";	
+cout<<"\n3. Display all elements .";	
+cout<<"\n4. get Count of Total element .";	
+cout<<"\n5. Peek Top element .";	
+cout<<"\n6. Save and Exit .";	
+cout<<"\n0.  Exit .";	
+cout<<"\n_______________";
+cout<<"\nEnter option :";
+cin>>iOpt;
+
+switch(iOpt)
+{
+case 1:
+		cout<<"\nEnter element to Push :";
+		cin>>ino;
+		s->Push(ino);
+		break;
+case 2:
+		ians=s->Pop();
+		if(ians==-1)
+			cout<<"\n Stack is Aleady Empty .";
+		else
+			cout<<"\nElement "<<ians<<" was popped/Removed .";
+		break;
+case 3:
+		
+		s->Display();
+		break;		
+case 4:
+		ians=s->Count();
+		if(ians==0)
+			cout<<"\n Stack is Empty .";
+		else
+			cout<<"\nTotal elements in Stack :"<<ians;
+		break;	
+case 5:
+		ians=s->Peek();
+		if(ians==-1)
+			cout<<"\n Stack is Empty .";
+		else
+			cout<<"\nTop element in Stack :"<<ians;
+		break;
+case 6:
+		s->SaveDisplay();
+		cout<<"\ndata Saved.";
+		break;
+		
+case 0:
+		delete s;//automatically call to ~Stack()
+		cout<<"\nThank you For using Stack Application.";
+		exit(0);
+		break;
+		
+default:
+		cout<<"\nInvalid Option\nEnter again ";
+		break;
+}//switch
+}//while
+
+return 0;
+}
